@@ -6,6 +6,7 @@
 #include <wiringPi.h>
 #include <bcm2835.h>
 
+#define NUM_CHANNELS 2
 #define WORD_SIZE 2U
 #define ENCODER_SIZE 3U
 #define PWM       0b00000001
@@ -13,18 +14,37 @@
 #define Write     0b10000000
 #define Timer     0
 
+struct controlfunction {
+        void *codepointer(int channel; float u,y);
+        char *description;
+} controlfunctions[]=
+[
+        // May possibly have many control laws to choose between
+        &linear, "Linear Control Law",
+        NULL,NULL
+]
+
+void linear(int channel, float u,y)
+{
+        // channel is the motor number - 
+        // U and Y are the desired speed and current speed
+        // placeholder
+
+        static float state[NUM_CHANNELS]; // a permanent state variable for each channel
+}
+volatile signed short PWMcheck; // global variable motorspeed in RPM as read from encoder
+volitile signed int PWMspeed;   // 
+
 char EncoderIn[3];
 char EncoderOut[3];
 char DataOut[2];
 char DataIn[2];
 signed int speed = 1000;
-volatile signed short PWMcheck;
 volatile signed char Encoders;
 volatile signed short Encoders1;
 int data = 0;
 int correct;
 short control;
-signed int PWMspeed;
 char prompt;
 int i;
 int k;
@@ -105,10 +125,8 @@ int main(int argc, char **argv)
                 bcm2835_delay(500);
                 printf("\nPlease give an integer voltage between -10 and 10 for the
 motor: ");
-//                speed = getchar();
                 scanf("%d", &speed);
                 printf("%d\n", speed);
-//                getchar();
                 printf("\n");
                 bcm2835_delay(1000);
 
