@@ -1,0 +1,19 @@
+The number of motors to suport is a complie-time parameter.
+
+The program can support several control laws each with their own parameters that can be changed at runtime.
+
+Each motor channel can set the rate of control loop processing, in period increments corresponding to integer multiples of the basic 2ms control loop frequency.
+
+The application takes commands that beging with a single letter, possibly followed by parameters. It is anticipated a script or other application could drive the system through a unix command redirection.
+
+Commands
+w <delay>               Wait a number of milliseconds
+r <path>                Source a file of commands
+
+m <num> <speed>         Set the desired speed of motor #<num> to <speed> rpm
+s <num>                 Stop control loop for that motor and set PWM output to zero
+g <num>                 Restart control loop processing for a motor
+l                       List available control laws and descriptions (letter 'l', not digit 1)
+p <motor> <n> <value>   Set the n'th control law parameter of a motor
+d <motor>               Print the control law parameters of a motor
+
